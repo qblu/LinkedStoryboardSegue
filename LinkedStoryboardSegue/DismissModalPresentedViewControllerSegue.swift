@@ -9,6 +9,6 @@
 import Foundation
 public class DismissModalPresentedViewControllerSegue:UIStoryboardSegue{
     public override func perform() {
-        (self.sourceViewController as! UIViewController).presentingViewController?.dismissViewControllerAnimated(true, completion:nil)
+        self.sourceViewController.presentingViewController?.dismissViewControllerAnimated(true, completion:nil)
     }
 }

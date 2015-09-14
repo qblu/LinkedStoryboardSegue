@@ -20,7 +20,7 @@ public class LinkedStoryboardSegue : UIStoryboardSegue{
         let storyboardBundle = useBundle
         
         if(identifier == nil) {
-            println("LinkedStoryboardSegue: failed! nil identifier.\n  expected format: " + LinkedStoryboardSegueIdentifier.expectedIdentifierExample)
+            print("LinkedStoryboardSegue: failed! nil identifier.\n  expected format: " + LinkedStoryboardSegueIdentifier.expectedIdentifierExample)
             return nil
         }
         
@@ -30,14 +30,14 @@ public class LinkedStoryboardSegue : UIStoryboardSegue{
         storyboard = UIStoryboard(name: segueIndentifier.storyboardName, bundle: storyboardBundle)
         
         // if provided a scene name, use it.  Otherwise, use initial from storyboard
-        if (segueIndentifier.sceneName == nil) {
-            scene = storyboard.instantiateInitialViewController() as? UIViewController
+        if let sceneName = segueIndentifier.sceneName {
+            scene = storyboard.instantiateViewControllerWithIdentifier(sceneName)
         } else {
-            scene = storyboard.instantiateViewControllerWithIdentifier(segueIndentifier.sceneName!) as? UIViewController
+            scene = storyboard.instantiateInitialViewController()
         }
         
         if(scene == nil){
-            println("LinkedStoryboardSegue: unable to load scene using the provided identifier:[\(identifier)].\n  expected format: " + LinkedStoryboardSegueIdentifier.expectedIdentifierExample)
+            print("LinkedStoryboardSegue: unable to load scene using the provided identifier:[\(identifier)].\n  expected format: " + LinkedStoryboardSegueIdentifier.expectedIdentifierExample)
         }
         
         return scene;
@@ -59,20 +59,20 @@ public class LinkedStoryboardSegue : UIStoryboardSegue{
     func fixDestinationViewControllerForNavigationRootControllers(destination:UIViewController) -> UIViewController {
         var fixedDestination = destination
         // check to see if this is a UINavigationController
-        if let invalidNavControllerToPush = fixedDestination as? UINavigationController {
+        if fixedDestination is UINavigationController {
             // ah, snap!  Let's message the dev'r
-            println("Invalid request to push a UINavigationController on a UINavigationController. Pushing the destination rootViewController instead")
+            print("Invalid request to push a UINavigationController on a UINavigationController. Pushing the destination rootViewController instead")
             // and replace the ref with the topViewController
             // yes, this is fragile, but it's already improper so...
-            fixedDestination = (fixedDestination as! UINavigationController).viewControllers[0] as! UIViewController
+            fixedDestination = (fixedDestination as! UINavigationController).viewControllers[0] 
         }
         return fixedDestination
     }
     
     public override func perform() {
         // gather our view controllers
-        let source = self.sourceViewController as! UIViewController
-        var destination = self.destinationViewController as! UIViewController
+        let source = self.sourceViewController 
+        var destination = self.destinationViewController 
         // fix the destination should it be a UINavigationController (that's no good in a push)
         destination = fixDestinationViewControllerForNavigationRootControllers(destination)
         // push it real good...

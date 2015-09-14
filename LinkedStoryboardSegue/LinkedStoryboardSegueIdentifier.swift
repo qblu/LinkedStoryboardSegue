@@ -20,18 +20,16 @@ public class LinkedStoryboardSegueIdentifier{
         // split the identifier on @.  Yep, that's a hack ;]
         let info = identifier.componentsSeparatedByString("@")
         // look for the storyboard name before the @
-        let stringComponent = info[0] as! String
+        let stringComponent = info[0] 
         storyboardName = stringComponent
         
         if(storyboardName.isEmpty) {
-            println(badIdentifierMessage + "\n  Empty identifier was configured for the segue")
+            print(badIdentifierMessage + "\n  Empty identifier was configured for the segue")
         }
         
         // look for ViewController name after the @
-        if (info.count > 1) {
-            if let let stringComponent = info[1] as? String {
-                sceneName = stringComponent
-            }
+        if info.count > 1 {
+            sceneName = info[1]
         }
     }
 }
