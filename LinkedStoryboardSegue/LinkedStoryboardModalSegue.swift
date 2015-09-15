@@ -12,8 +12,7 @@ public class LinkedStoryboardModalSegue : LinkedStoryboardSegue {
         // gather our view controllers
         let source = self.sourceViewController 
         let destination = self.destinationViewController 
-        // Since this is a moda, a UINavigationController should be ok, not fiing like in the baseClass
-        // push it real good...
-        source.navigationController?.presentViewController(destination, animated:true, completion:nil)
+        // Since this is a modal, a UINavigationController should be ok, not fiing like in the baseClass
+        source.showViewController(destination, sender: self)
     }
 }

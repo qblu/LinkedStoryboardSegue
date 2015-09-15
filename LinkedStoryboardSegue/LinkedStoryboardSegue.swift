@@ -76,7 +76,11 @@ public class LinkedStoryboardSegue : UIStoryboardSegue{
         // fix the destination should it be a UINavigationController (that's no good in a push)
         destination = fixDestinationViewControllerForNavigationRootControllers(destination)
         // push it real good...
-        source.navigationController?.pushViewController(destination, animated:true)
+        guard let navigationController = source.navigationController else {
+            print("LinkedStoryboardSegue.perform(): Source \(source) has no navigationController")
+            return
+        }
+        navigationController.pushViewController(destination, animated:true)
     }
 
     
